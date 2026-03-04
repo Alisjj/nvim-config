@@ -44,9 +44,14 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 -- make current file executable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
--- source current file
+-- source current file (vim/lua only)
 vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
+    local ft = vim.bo.filetype
+    if ft == "vim" or ft == "lua" then
+        vim.cmd("so")
+    else
+        vim.notify("Can only source vim or lua files", vim.log.levels.WARN)
+    end
 end)
 
 -- tmux-sessionizer (requires tmux-sessionizer script on PATH)
